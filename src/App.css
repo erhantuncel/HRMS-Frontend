@@ -1,3 +1,15 @@
 .App {
-  text-align: center;
+  margin: 0px;
+  padding: 0px;
+}
+
+.ui.main.container{
+  margin: 0 0 0 0;
+  height: 90vh;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
