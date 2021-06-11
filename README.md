@@ -2,4 +2,4 @@
 
 #### Component UML Diagram
 
-<img src="/images/component-uml-diagram.png" width="700px">
+<img src="images/component-uml-diagram.png" width="700px">
