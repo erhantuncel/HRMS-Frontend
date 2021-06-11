@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Grid, Icon, Menu, Table } from 'semantic-ui-react'
+import JobAdvertService from '../services/jobAdvertService'
 
 export default function JobAdvertList() {
+
+    const [jobAdverts, setJobAdverts] = useState([])
+
+    useEffect(() => {
+        let jobAdvertService = new JobAdvertService()
+        jobAdvertService.getallActive().then(result => setJobAdverts(result.data.data))
+    }, [])
+
     return (
         <Grid>
             <Grid.Row>
@@ -10,26 +19,30 @@ export default function JobAdvertList() {
                         <Table.Header>
                             <Table.Row>
                                 <Table.HeaderCell>Company Name</Table.HeaderCell>
-                                <Table.HeaderCell>Position</Table.HeaderCell>
-                                <Table.HeaderCell>Open Positions</Table.HeaderCell>
-                                <Table.HeaderCell>Job Posting Date</Table.HeaderCell>
-                                <Table.HeaderCell>Deadline</Table.HeaderCell>
-                                <Table.HeaderCell width={4}>Operations</Table.HeaderCell>
+                                <Table.HeaderCell width={3}>Position</Table.HeaderCell>
+                                <Table.HeaderCell width={2}>Open Positions</Table.HeaderCell>
+                                <Table.HeaderCell width={2}>Job Posting Date</Table.HeaderCell>
+                                <Table.HeaderCell width={1}>Deadline</Table.HeaderCell>
+                                <Table.HeaderCell width={3}>Operations</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
 
                         <Table.Body>
-                            <Table.Row>
-                                <Table.Cell>Cell</Table.Cell>
-                                <Table.Cell>Cell</Table.Cell>
-                                <Table.Cell>Cell</Table.Cell>
-                                <Table.Cell>Cell</Table.Cell>
-                                <Table.Cell>Cell</Table.Cell>
-                                <Table.Cell>
-                                    <Button primary>Apply</Button>
-                                    <Button primary>Disable</Button>
-                                </Table.Cell>
-                            </Table.Row>
+                            {
+                                jobAdverts.map(jobAdvert => (
+                                    <Table.Row key={jobAdvert.id}>
+                                        <Table.Cell>{jobAdvert.employer.companyName}</Table.Cell>
+                                        <Table.Cell>{jobAdvert.jobPosition.name}</Table.Cell>
+                                        <Table.Cell>{jobAdvert.openPositionCount}</Table.Cell>
+                                        <Table.Cell>{jobAdvert.createdDate}</Table.Cell>
+                                        <Table.Cell>{jobAdvert.deadline}</Table.Cell>
+                                        <Table.Cell textAlign="center">
+                                            <Button primary size="mini">Apply</Button>
+                                            <Button primary size="mini">Disable</Button>
+                                        </Table.Cell>
+                                    </Table.Row>
+                                ))
+                            }
                         </Table.Body>
 
                         <Table.Footer>

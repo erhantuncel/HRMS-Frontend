@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Grid, Icon, Menu, Table, Button } from 'semantic-ui-react'
+import EmployerService from '../services/employerService'
 
 export default function EmployerList() {
+
+    const [employers, setEmployers] = useState([])
+
+    useEffect(() => {
+        let employerService = new EmployerService()
+        employerService.getall().then(result => setEmployers(result.data.data))
+    }, [])
+
     return (
         <Grid>
             <Grid.Row>
@@ -14,23 +23,27 @@ export default function EmployerList() {
                                 <Table.HeaderCell>Web Page</Table.HeaderCell>
                                 <Table.HeaderCell>E-mail</Table.HeaderCell>
                                 <Table.HeaderCell>Phone</Table.HeaderCell>
-                                <Table.HeaderCell width={6}>Operations</Table.HeaderCell>
+                                <Table.HeaderCell width={5}>Operations</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
 
                         <Table.Body>
-                            <Table.Row>
-                                <Table.Cell>Cell</Table.Cell>
-                                <Table.Cell>Cell</Table.Cell>
-                                <Table.Cell>Cell</Table.Cell>
-                                <Table.Cell>Cell</Table.Cell>
-                                <Table.Cell>Cell</Table.Cell>
-                                <Table.Cell textAlign="center">
-                                    <Button primary >Update</Button>
-                                    <Button primary >Confirm</Button>
-                                    <Button primary >Delete</Button>
-                                </Table.Cell>
-                            </Table.Row>
+                            {
+                                employers.map(employer => (
+                                    <Table.Row key={employer.id}>
+                                        <Table.Cell>{employer.id}</Table.Cell>
+                                        <Table.Cell>{employer.companyName}</Table.Cell>
+                                        <Table.Cell>{employer.webPage}</Table.Cell>
+                                        <Table.Cell>{employer.email}</Table.Cell>
+                                        <Table.Cell>{employer.phone}</Table.Cell>
+                                        <Table.Cell textAlign="center">
+                                            <Button primary size="mini" >Update</Button>
+                                            <Button primary size="mini" >Confirm</Button>
+                                            <Button primary size="mini" >Delete</Button>
+                                        </Table.Cell>
+                                    </Table.Row>
+                                ))
+                            }
                         </Table.Body>
 
                         <Table.Footer>

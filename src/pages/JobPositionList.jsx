@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Grid, Icon, Menu, Table } from 'semantic-ui-react'
+import JobPositionService from '../services/jobPositionService'
 
 export default function JobPositionList() {
+
+    const [jobPositions, setJobPositions] = useState([])
+
+    useEffect(() => {
+        let jobPositionService = new JobPositionService()
+        jobPositionService.getall().then(result => setJobPositions(result.data.data))
+    }, [])
+
     return (
         <Grid>
             <Grid.Row>
@@ -11,19 +20,23 @@ export default function JobPositionList() {
                             <Table.Row>
                                 <Table.HeaderCell width={1}>Id</Table.HeaderCell>
                                 <Table.HeaderCell >Name</Table.HeaderCell>
-                                <Table.HeaderCell width={4}>Operations</Table.HeaderCell>
+                                <Table.HeaderCell width={3}>Operations</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
 
                         <Table.Body>
-                            <Table.Row>
-                                <Table.Cell>Cell</Table.Cell>
-                                <Table.Cell>Cell</Table.Cell>
-                                <Table.Cell>
-                                    <Button primary>Apply</Button>
-                                    <Button primary>Disable</Button>
-                                </Table.Cell>
-                            </Table.Row>
+                            {
+                                jobPositions.map(jobPosition => (
+                                    <Table.Row key={jobPosition.id} >
+                                        <Table.Cell>{jobPosition.id}</Table.Cell>
+                                        <Table.Cell>{jobPosition.name}</Table.Cell>
+                                        <Table.Cell textAlign="center">
+                                            <Button primary size="mini">Edit</Button>
+                                            <Button primary size="mini">Delete</Button>
+                                        </Table.Cell>
+                                    </Table.Row>
+                                ))
+                            }
                         </Table.Body>
 
                         <Table.Footer>
