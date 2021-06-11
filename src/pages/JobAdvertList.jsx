@@ -9,7 +9,6 @@ export default function JobAdvertList() {
                     <Table celled>
                         <Table.Header>
                             <Table.Row>
-                                <Table.HeaderCell width={1}>Id</Table.HeaderCell>
                                 <Table.HeaderCell>Company Name</Table.HeaderCell>
                                 <Table.HeaderCell>Position</Table.HeaderCell>
                                 <Table.HeaderCell>Open Positions</Table.HeaderCell>
@@ -21,7 +20,6 @@ export default function JobAdvertList() {
 
                         <Table.Body>
                             <Table.Row>
-                                <Table.Cell>Cell</Table.Cell>
                                 <Table.Cell>Cell</Table.Cell>
                                 <Table.Cell>Cell</Table.Cell>
                                 <Table.Cell>Cell</Table.Cell>
