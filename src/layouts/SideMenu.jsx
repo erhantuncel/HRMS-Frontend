@@ -1,14 +1,16 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react'
 
 export default function SideMenu() {
+    const baseUserUrl = "/user"
     const menuItems = [
-        {id:1, title: "My Resumes", url: "#", role: "candidate" },
-        {id:2, title: "Search Job", url: "#", role: "candidate" },
-        {id:3, title: "My Job Adverts", url: "#", role: "employer" },
-        {id:5, title: "Add Job Adverts", url: "#", role: "employer" },
-        {id:6, title: "Candidates", url: "#", role: "staff" },
-        {id:7, title: "Employers", url: "#", role: "staff" }
+        {id:1, title: "My Resumes", to: `${baseUserUrl}/candidate/resumes`, role: "candidate" },
+        {id:2, title: "Search Job", to: `${baseUserUrl}/candidate/job-adverts`, role: "candidate" },
+        {id:3, title: "My Job Adverts", to: `${baseUserUrl}/employer/job-adverts`, role: "employer" },
+        {id:4, title: "Candidates", to: `${baseUserUrl}/staff/candidates`, role: "staff" },
+        {id:5, title: "Employers", to: `${baseUserUrl}/staff/employers`, role: "staff" },
+        {id:6, title: "Job Positions", to: `${baseUserUrl}/staff/job-positions`, role: "staff" }
     ]
     const user = "candidate";
 
@@ -16,7 +18,7 @@ export default function SideMenu() {
         <Menu inverted vertical fluid>
             {menuItems.filter(link => link.role === user)
                 .map((link) => (
-                    <Menu.Item name={link.title} key={link.id} />
+                    <Menu.Item name={link.title} key={link.id} as={NavLink} to={link.to} />
                 ))}
         </Menu>
     )

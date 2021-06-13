@@ -4,11 +4,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
+import { BrowserRouter } from 'react-router-dom';
 
 axios.defaults.baseURL="http://localhost:8080/api"
 
 ReactDOM.render(
-    <App />,
+    <BrowserRouter><App/></BrowserRouter>,
   // <React.StrictMode>
   // </React.StrictMode>,
   document.getElementById('root')
