@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import { SubmitButton, ResetButton, Form, Input, Select, TextArea } from 'formik-semantic-ui-react'
 import { Grid, Header, Segment, FormGroup, FormField } from 'semantic-ui-react'
@@ -6,31 +6,51 @@ import * as Yup from 'yup'
 import { useHistory } from 'react-router-dom'
 import FormikDatePicker from '../common/formik/FormikDatePicker'
 import { subDays } from 'date-fns/esm'
+import CityService from '../services/cityService'
+import JobPositionService from '../services/jobPositionService'
+import JobTypeService from '../services/jobTypeService'
+import WorkLocationService from '../services/workLocationService'
 
 export default function AddJobAdvertForm() {
 
     const history = useHistory()
     
+    const [cityOptions, setCityOptions] = useState([])
+    const [jobPositionOptions, setJobPositionOptions] = useState()
+    const [jobTypeOptions, setJobTypeOptions] = useState()
+    const [workLocationOptions, setWorkLocationOptions] = useState([])
 
-    const cityOptions = [
-        { key: '6', value: 'Ankara', text: 'Ankara' },
-        { key: '14', value: 'Bolu', text: 'Bolu' },
-    ]
+    
+    useEffect(() => {
+        let cityService = new CityService()
+        cityService.getall().then(
+            result => setCityOptions(
+                result.data.data.map(c => ({ key: c.id, value: c.id, text: c.name }))
+            )
+        )
+        
+        let jobPositionService = new JobPositionService()
+        jobPositionService.getall().then(
+            result => setJobPositionOptions(
+                result.data.data.map(jp => ({ key: jp.id, value: jp.id, text: jp.name }))
+            )
+        )
 
-    const jobPositionOptions = [
-        { key: '1', value: 'Frontend Developer', text: 'Frontend Developer' },
-        { key: '2', value: 'Backend Developer', text: 'Backend Developer' },
-    ]
+        let jobTypeService = new JobTypeService()
+        jobTypeService.getall().then(
+            result => setJobTypeOptions(
+                result.data.data.map(jt => ({ key: jt.id, value: jt.id, text: jt.name }))
+            )
+        )
 
-    const jobTypeOptions = [
-        { key: '1', value: 'Part-time', text: 'Part-Time' },
-        { key: '2', value: 'Full-time', text: 'Full-Time' },
-    ]
+        let workLocaitonService = new WorkLocationService()
+        workLocaitonService.getall().then(
+            result => setWorkLocationOptions(
+                result.data.data.map(wl => ({ key: wl.id, value: wl.id, text: wl.name }))
+            )
+        )
 
-    const workLocationOptions = [
-        { key: '1', value: 'Office', text: 'Office' },
-        { key: '2', value: 'Remote', text: 'Remote' },
-    ]
+    }, [])
 
     const initialValues = {
         city: "",
@@ -45,14 +65,12 @@ export default function AddJobAdvertForm() {
     }
 
     const validationSchema = Yup.object({
-        city: Yup.string().oneOf(cityOptions.map(c => c.value)).required('Required'),
-        jobPosition: Yup.string().oneOf(jobPositionOptions.map(j => j.value)).required('Required'),
-        jobType: Yup.string().oneOf(jobTypeOptions.map(j => j.value)).required('Required'),
-        workLocation: Yup.string().oneOf(workLocationOptions.map(w => w.value)).required('Required'),
+        city: Yup.string().required('Required'),
+        jobPosition: Yup.string().required('Required'),
+        jobType: Yup.string().required('Required'),
+        workLocation: Yup.string().required('Required'),
         deadline: Yup.date().required('Required'),
-        deadline: Yup.string().required('Required'),
-        minSalary: Yup.number().required('Required'),
-        maxSalary: Yup.number().moreThan(Yup.ref("minSalary")).required('Required'),
+        maxSalary: Yup.number().moreThan(Yup.ref("minSalary")),
         openPositionCount: Yup.string().required('Required'),
         jobDefinition: Yup.string().required('Required')
     })

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Grid, Menu } from 'semantic-ui-react'
+import { Container, Grid } from 'semantic-ui-react'
 import CandidateList from '../pages/CandidateList'
 import JobAdvertList from '../pages/JobAdvertList'
 import EmployerList from '../pages/EmployerList'

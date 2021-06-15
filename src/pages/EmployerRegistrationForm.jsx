@@ -4,18 +4,16 @@ import { SubmitButton, Form, Input } from 'formik-semantic-ui-react'
 import { Grid, Header, Segment } from 'semantic-ui-react'
 import * as Yup from 'yup'
 import { useHistory } from 'react-router-dom'
+import AuthService from '../services/authService'
 
 export default function EmployerRegistrationForm() {
-
-    const history = useHistory()
-
     const initialValues = {
         companyName: "",
         webPage: "",
         email: "",
         phone: "",
         password: "",
-        password2: ""
+        passwordForCheck: ""
     }
 
     const validationSchema = Yup.object({
@@ -24,13 +22,26 @@ export default function EmployerRegistrationForm() {
         email: Yup.string().required('Required').email('Invalid E-mail'),
         phone: Yup.string().required('Required').length(10, 'Must be ten digits.'),
         password: Yup.string().required('Required').min(6, 'Must be at least 6 characters.'),
-        password2: Yup.string().required('Required').oneOf([Yup.ref('password'), null], 'Password must match')
+        passwordForCheck: Yup.string().required('Required').oneOf([Yup.ref('password'), null], 'Password must match')
     })
 
-    function handleSubmit(values, setSubmitting) {
-        alert(JSON.stringify(values, null, 2))
-        setSubmitting(false)
-        history.push("/user/employer")
+    const history = useHistory()
+
+
+    function handleSubmit(values, setSubmitting, resetForm) {
+        let authService = new AuthService()
+        authService.registerEmployer(values).then(
+            result => {
+                if(result.data.success) {
+                    console.log(JSON.stringify(values, null, 2))
+                    setSubmitting(false)
+                    resetForm()
+                    history.push("/user/employer")
+                } else {
+                    alert(result.data.message)
+                }
+            }
+        )
     }
 
     return (
@@ -39,7 +50,7 @@ export default function EmployerRegistrationForm() {
                 <Grid.Column style={{ maxWidth: '410px' }}>
                     <Header as='h2' color='blue' textAlign='center'>Register Employer</Header>
                     <Formik initialValues={initialValues} validationSchema={validationSchema}
-                        onSubmit={(values, {setSubmitting}) => {handleSubmit(values, setSubmitting)}}>
+                        onSubmit={(values, {setSubmitting, resetForm}) => {handleSubmit(values, setSubmitting, resetForm)}}>
                         <Form size='large'>
                             <Segment>
                                 <Input fluid icon='building' iconPosition='left' placeholder='Company Name'
@@ -53,7 +64,7 @@ export default function EmployerRegistrationForm() {
                                 <Input fluid icon='lock' iconPosition='left' placeholder='Password' type='password'
                                     name='password' errorPrompt />
                                 <Input fluid icon='lock' iconPosition='left' placeholder='Password(repeat)' type='password'
-                                    name='password2' errorPrompt />
+                                    name='passwordForCheck' errorPrompt />
                                 <SubmitButton color='blue' fluid size='large'>
                                     Register
                                 </SubmitButton>
