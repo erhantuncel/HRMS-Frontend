@@ -7,9 +7,11 @@ import SideMenu from './SideMenu'
 import JobPositionList from '../pages/JobPositionList'
 import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom'
 import ResumeList from '../pages/ResumeList'
+import AddJobAdvertForm from '../pages/AddJobAdvertForm'
 
 export default function UserDashboard() {
     let match = useRouteMatch()
+
     return (
         <Container className="main">
             <Grid padded style={{height: '90vh'}} divided>
@@ -26,6 +28,7 @@ export default function UserDashboard() {
                             <Route exact path={`${match.path}/staff/job-adverts`} component={JobAdvertList} />
                             <Route exact path={`${match.path}/employer/`} component={JobAdvertList} />
                             <Route exact path={`${match.path}/employer/job-adverts`} component={JobAdvertList} />
+                            <Route exact path={`${match.path}/employer/add-job-advert`} component={AddJobAdvertForm} />
                             <Route exact path={`${match.path}/candidate/`} component={JobAdvertList} />
                             <Route exact path={`${match.path}/candidate/job-adverts`} component={JobAdvertList} />
                             <Route exact path={`${match.path}/candidate/resumes`} component={ResumeList} />
