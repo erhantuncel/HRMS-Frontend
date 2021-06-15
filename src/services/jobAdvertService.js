@@ -3,7 +3,7 @@ import axios from "axios";
 export default class JobAdvertService{
 
     add(jobAdvert) {
-        return axios.post("/jobadverts/add")
+        return axios.post("/jobadverts/add", jobAdvert)
     }
 
     changeActiveStatus(employerId, jobAdvertId) {

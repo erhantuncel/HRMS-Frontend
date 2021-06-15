@@ -4,22 +4,20 @@ import { SubmitButton, ResetButton, Form, Input, Select, TextArea } from 'formik
 import { Grid, Header, Segment, FormGroup, FormField } from 'semantic-ui-react'
 import * as Yup from 'yup'
 import { useHistory } from 'react-router-dom'
-import FormikDatePicker from '../common/formik/FormikDatePicker'
-import { subDays } from 'date-fns/esm'
 import CityService from '../services/cityService'
 import JobPositionService from '../services/jobPositionService'
 import JobTypeService from '../services/jobTypeService'
 import WorkLocationService from '../services/workLocationService'
+import JobAdvertService from '../services/jobAdvertService'
 
 export default function AddJobAdvertForm() {
 
     const history = useHistory()
     
     const [cityOptions, setCityOptions] = useState([])
-    const [jobPositionOptions, setJobPositionOptions] = useState()
-    const [jobTypeOptions, setJobTypeOptions] = useState()
+    const [jobPositionOptions, setJobPositionOptions] = useState([])
+    const [jobTypeOptions, setJobTypeOptions] = useState([])
     const [workLocationOptions, setWorkLocationOptions] = useState([])
-
     
     useEffect(() => {
         let cityService = new CityService()
@@ -53,10 +51,11 @@ export default function AddJobAdvertForm() {
     }, [])
 
     const initialValues = {
-        city: "",
-        jobPosition: "",
-        jobType: "",
-        workLocation: "",
+        employer: {id:3},
+        city: {id:""},
+        jobPosition: {id:""},
+        jobType: {id:""},
+        workLocation: {id:""},
         deadline: "",
         maxSalary: "",
         minSalary: "",
@@ -65,20 +64,31 @@ export default function AddJobAdvertForm() {
     }
 
     const validationSchema = Yup.object({
-        city: Yup.string().required('Required'),
-        jobPosition: Yup.string().required('Required'),
-        jobType: Yup.string().required('Required'),
-        workLocation: Yup.string().required('Required'),
+        city: Yup.object().shape({id:Yup.number().required('Required')}),
+        jobPosition: Yup.object().shape({id:Yup.number().required('Required')}),
+        jobType: Yup.object().shape({id:Yup.number().required('Required')}),
+        workLocation: Yup.object().shape({id:Yup.number().required('Required')}),
         deadline: Yup.date().required('Required'),
-        maxSalary: Yup.number().moreThan(Yup.ref("minSalary")),
-        openPositionCount: Yup.string().required('Required'),
+        maxSalary: Yup.number().nullable(),
+        maxSalary: Yup.number().moreThan(Yup.ref("minSalary")).nullable(),
+        openPositionCount: Yup.number().required('Required'),
         jobDefinition: Yup.string().required('Required')
     })
 
-    function handleSubmit(values, setSubmitting) {
-        alert(JSON.stringify(values, null, 2))
-        setSubmitting(false)
-        history.push("/user/employer")
+    function handleSubmit(values, setSubmitting, resetForm) {
+        console.log(values)
+        let jobAdvertService = new JobAdvertService()
+        jobAdvertService.add(values).then(
+            result => {
+                if(result.data.success) {
+                    setSubmitting(false)
+                    resetForm()
+                    history.push("/user/employer")
+                } else {
+                    alert(result.data.message)
+                }
+            }
+        )
     }
 
     return (
@@ -86,7 +96,7 @@ export default function AddJobAdvertForm() {
             <Grid.Row >
                 <Grid.Column>
                     <Formik initialValues={initialValues} validationSchema={validationSchema}
-                        onSubmit={(values, { setSubmitting }) => { handleSubmit(values, setSubmitting) }}
+                        onSubmit={(values, { setSubmitting, resetForm }) => { handleSubmit(values, setSubmitting, resetForm) }}
                     >
                         <Form size='large'>
                             <Header as='h3' attached="top" block >ADD JOB ADVERT</Header>
@@ -95,7 +105,7 @@ export default function AddJobAdvertForm() {
                                     <Select
                                         id="select-city"
                                         errorPrompt
-                                        name="city"
+                                        name="city.id"
                                         selectOnBlur={false}
                                         clearable
                                         placeholder="Select City"
@@ -105,7 +115,7 @@ export default function AddJobAdvertForm() {
                                     <Select
                                         id="select-job-position"
                                         errorPrompt
-                                        name="jobPosition"
+                                        name="jobPosition.id"
                                         selectOnBlur={false}
                                         clearable
                                         placeholder="Select Job Position"
@@ -117,7 +127,7 @@ export default function AddJobAdvertForm() {
                                     <Select
                                         id="select-job-type"
                                         errorPrompt
-                                        name="jobType"
+                                        name="jobType.id"
                                         selectOnBlur={false}
                                         clearable
                                         placeholder="Select Job Type"
@@ -128,7 +138,7 @@ export default function AddJobAdvertForm() {
                                     <Select
                                         id="select-work-location"
                                         errorPrompt
-                                        name="workLocation"
+                                        name="workLocation.id"
                                         selectOnBlur={false}
                                         clearable
                                         placeholder="Select Work Location"
@@ -140,7 +150,7 @@ export default function AddJobAdvertForm() {
                                 <FormGroup widths="equal">
                                     <FormField
                                         control={Input} type="number" id="minSalary" placeholder="Minimum Salary"
-                                        label="Minimum Salary" name='minSalary' errorPrompt
+                                        label="Minimum Salary" name='minSalary' 
                                     />
                                     <FormField
                                         control={Input} type="number" id="maxSalary" placeholder="Maxium Salary"
@@ -149,15 +159,16 @@ export default function AddJobAdvertForm() {
                                 </FormGroup>
                                 <FormGroup widths="equal">
                                     <FormField
-                                        control={Input} id="openPositionCount" placeholder="Open position count"
+                                        control={Input} type="number" id="openPositionCount" placeholder="Open position count"
                                         label="Open Position Count" name='openPositionCount' errorPrompt
                                     />
-                                    <FormikDatePicker 
+                                    <FormField 
+                                        control={Input}
+                                        type="date"        
                                         name="deadline"
                                         label="Deadline"
-                                        minDate={subDays(new Date(),0)}
-                                        placeholderText="Select Deadline"
-                                        dateFormat="dd.MM.yyyy"
+                                        min={new Date().toISOString().split("T")[0]}
+                                        errorPrompt
                                     />
                                 </FormGroup>
                                 <FormGroup widths="equal">
