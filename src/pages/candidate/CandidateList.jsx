@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, Icon, Menu, Table, Button } from 'semantic-ui-react'
-import CandidateService from '../services/candidateService'
+import CandidateService from '../../services/candidateService'
 
 export default function CandidateList() {
 

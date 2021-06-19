@@ -4,11 +4,11 @@ import { SubmitButton, ResetButton, Form, Input, Select, TextArea } from 'formik
 import { Grid, Header, Segment, FormGroup, FormField } from 'semantic-ui-react'
 import * as Yup from 'yup'
 import { useHistory } from 'react-router-dom'
-import CityService from '../services/cityService'
-import JobPositionService from '../services/jobPositionService'
-import JobTypeService from '../services/jobTypeService'
-import WorkLocationService from '../services/workLocationService'
-import JobAdvertService from '../services/jobAdvertService'
+import CityService from '../../services/cityService'
+import JobPositionService from '../../services/jobPositionService'
+import JobTypeService from '../../services/jobTypeService'
+import WorkLocationService from '../../services/workLocationService'
+import JobAdvertService from '../../services/jobAdvertService'
 
 export default function AddJobAdvertForm() {
 
@@ -69,7 +69,7 @@ export default function AddJobAdvertForm() {
         jobType: Yup.object().shape({id:Yup.number().required('Required')}),
         workLocation: Yup.object().shape({id:Yup.number().required('Required')}),
         deadline: Yup.date().required('Required'),
-        maxSalary: Yup.number().nullable(),
+        minSalary: Yup.number().nullable(),
         maxSalary: Yup.number().moreThan(Yup.ref("minSalary")).nullable(),
         openPositionCount: Yup.number().required('Required'),
         jobDefinition: Yup.string().required('Required')

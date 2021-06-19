@@ -4,7 +4,7 @@ import { SubmitButton, Form, Input } from 'formik-semantic-ui-react'
 import { Grid, Header, Segment, Message } from 'semantic-ui-react'
 import * as Yup from 'yup'
 import { useDispatch } from 'react-redux'
-import { logIn } from '../store/actions/userActions'
+import { logIn } from '../../store/actions/userActions'
 import { Link, useHistory } from 'react-router-dom'
 
 export default function LogInForm() {

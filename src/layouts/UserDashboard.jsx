@@ -1,13 +1,13 @@
 import React from 'react'
 import { Container, Grid } from 'semantic-ui-react'
-import CandidateList from '../pages/CandidateList'
-import JobAdvertList from '../pages/JobAdvertList'
-import EmployerList from '../pages/EmployerList'
+import CandidateList from '../pages/candidate/CandidateList'
+import JobAdvertList from '../pages/jobAdvert/JobAdvertList'
+import EmployerList from '../pages/employer/EmployerList'
 import SideMenu from './SideMenu'
-import JobPositionList from '../pages/JobPositionList'
+import JobPositionList from '../pages/jobPosition/JobPositionList'
 import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom'
-import ResumeList from '../pages/ResumeList'
-import AddJobAdvertForm from '../pages/AddJobAdvertForm'
+import ResumeList from '../pages/resume/ResumeList'
+import AddJobAdvertForm from '../pages/jobAdvert/AddJobAdvertForm'
 
 export default function UserDashboard() {
     let match = useRouteMatch()

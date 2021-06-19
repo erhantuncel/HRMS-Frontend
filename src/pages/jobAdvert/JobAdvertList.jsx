@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { Button, Grid, Icon, Menu, Table } from 'semantic-ui-react'
-import JobAdvertService from '../services/jobAdvertService'
+import JobAdvertService from '../../services/jobAdvertService'
 
 export default function JobAdvertList() {
 

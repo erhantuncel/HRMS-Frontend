@@ -4,7 +4,7 @@ import { SubmitButton, Form, Input } from 'formik-semantic-ui-react'
 import { Grid, Header, Segment } from 'semantic-ui-react'
 import * as Yup from 'yup'
 import { useHistory } from 'react-router-dom'
-import AuthService from '../services/authService'
+import AuthService from '../../services/authService'
 
 export default function EmployerRegistrationForm() {
     const initialValues = {
