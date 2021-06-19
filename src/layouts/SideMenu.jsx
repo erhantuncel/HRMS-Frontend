@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react'
 
@@ -12,11 +13,11 @@ export default function SideMenu() {
         {id:5, title: "Employers", to: `${baseUserUrl}/staff/employers`, role: "staff" },
         {id:6, title: "Job Positions", to: `${baseUserUrl}/staff/job-positions`, role: "staff" }
     ]
-    const user = "candidate";
+    const {user} = useSelector(state => state.userInfo)
 
     return (
         <Menu inverted vertical fluid>
-            {menuItems.filter(link => link.role === user)
+            {menuItems.filter(link => link.role === user.role)
                 .map((link) => (
                     <Menu.Item name={link.title} key={link.id} as={NavLink} to={link.to} />
                 ))}

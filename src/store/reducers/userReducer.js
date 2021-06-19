@@ -9,14 +9,15 @@ const initialState = {
 export default function userReducer(state = initialState, {type, payload}) {
     switch (type) {
         case USER_LOGIN:
-            // state.user = {id: payload.id, role:payload.role}
             return {
                 ...state,
-                user: {id: payload.id, role:payload.role}
+                user: payload
             }
         case USER_LOGOUT:
-            state.user = null
-            return {...state}
+            return {
+                ...state,
+                user: payload
+            }
         default:
             return state
     }

@@ -27,7 +27,7 @@ export default function MainPage() {
                                         options={countryOptions} 
                                     />
                                 </Form.Field>
-                                <Button primary type='submit' onClick="{setOpen(true)}" >Find Job</Button>
+                                <Button primary type='submit' >Find Job</Button>
                             </Form>
                         </Segment>
                     </Grid.Column>

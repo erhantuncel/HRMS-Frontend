@@ -8,9 +8,9 @@ export function logIn(user) {
     }
 }
 
-export function logOut(user) {
+export function logOut() {
     return {
         type: USER_LOGOUT,
-        payload: user
+        payload: null
     }
 }

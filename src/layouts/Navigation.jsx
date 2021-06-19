@@ -1,22 +1,12 @@
-import React, { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { Container, Icon, Menu } from 'semantic-ui-react'
 import GuestMenu from './GuestMenu'
 import UserMenu from './UserMenu'
 
 export default function Navigation() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false)
-    const history = useHistory()
-
-    function handleSignOut() {
-        setIsAuthenticated(false)
-        history.push("/")
-    }
-
-    function handleSignIn() {
-        setIsAuthenticated(true)
-    }
-
+    const {user} = useSelector(state => state.userInfo)
     return (
         <Menu inverted style={{margin: 0}} >
             <Container>
@@ -26,8 +16,7 @@ export default function Navigation() {
                     Human Resources Management
                     </Link>
                 </Menu.Item>
-                { isAuthenticated ? <UserMenu signOut={handleSignOut} /> 
-                                  : <GuestMenu signIn={handleSignIn} /> }
+                { user === null ? <GuestMenu /> : <UserMenu />}
             </Container>
         </Menu>
     )

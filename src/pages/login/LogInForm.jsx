@@ -23,10 +23,15 @@ export default function LogInForm() {
     })
 
     const handleLogin = (values) => {
-        console.log(values)
-        if(values.email === 'erhan@abc.com' && values.password === '123456') {
+        if(values.email === 'staff@abc.com' && values.password === '123456') {
+            dispatch(logIn({id:1, role:"staff"}))
+            history.push("/user/staff")
+        } else if (values.email === 'employer@abc.com' && values.password === '123456') {
             dispatch(logIn({id:1, role:"employer"}))
             history.push("/user/employer")
+        } else if (values.email === 'candidate@abc.com' && values.password === '123456') {
+            dispatch(logIn({id:1, role:"candidate"}))
+            history.push("/user/candidate")
         } else {
             history.push("/login")
         }
