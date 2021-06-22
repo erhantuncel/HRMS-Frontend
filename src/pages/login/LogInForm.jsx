@@ -57,8 +57,9 @@ export default function LogInForm() {
                             </Segment>
                         </Form>
                     </Formik>
-                    <Message info>
-                        New to us? <Link to="/register-employer">Sign Up</Link>
+                    <Message info as="h3">
+                        New to us? Sign Up <br />
+                        <Link to="/register-candidate">Candidate</Link> | <Link to="/register-employer">Employer</Link>
                     </Message>
                 </Grid.Column>
             </Grid.Row>
