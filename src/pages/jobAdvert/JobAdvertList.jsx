@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { Button, Grid, Icon, Menu, Table } from 'semantic-ui-react'
 import JobAdvertService from '../../services/jobAdvertService'
 
 export default function JobAdvertList() {
 
+    const {user} = useSelector(state => state.userInfo)
     const [jobAdverts, setJobAdverts] = useState([])
 
     useEffect(() => {
@@ -16,7 +18,10 @@ export default function JobAdvertList() {
         <Grid>
             <Grid.Row>
                 <Grid.Column>
-                    <Button primary as={NavLink} to="/user/employer/add-job-advert" >Add Job Advert</Button>
+                    {user.role === "employer" ?
+                        <Button primary as={NavLink} to="/user/employer/add-job-advert" >Add Job Advert</Button>
+                        : null
+                    }
                     <Table celled>
                         <Table.Header>
                             <Table.Row>
