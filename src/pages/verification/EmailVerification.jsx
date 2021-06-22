@@ -28,7 +28,9 @@ export default function EmailVerification() {
                 }
                 Email verification is {!isVerified ? "not" : null} successful.
             </Header>
-            <Button primary as={Link} to="/login">LogIn</Button>
+            {isVerified ? <Button primary as={Link} to="/login">LogIn</Button>
+                        : null}
+            
         </Segment>
     )
 }

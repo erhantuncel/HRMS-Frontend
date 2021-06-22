@@ -36,7 +36,7 @@ export default function EmployerRegistrationForm() {
                     console.log(JSON.stringify(values, null, 2))
                     setSubmitting(false)
                     resetForm()
-                    history.push("/user/employer")
+                    history.push("/verification/info")
                 } else {
                     alert(result.data.message)
                 }
