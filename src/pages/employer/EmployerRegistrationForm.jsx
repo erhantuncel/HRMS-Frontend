@@ -1,10 +1,10 @@
 import React from 'react'
-import { Formik } from 'formik'
-import { SubmitButton, Form, Input } from 'formik-semantic-ui-react'
-import { Grid, Header, Segment } from 'semantic-ui-react'
+import { Formik, Form } from 'formik'
+import { Grid, Header, Segment, Button } from 'semantic-ui-react'
 import * as Yup from 'yup'
 import { useHistory } from 'react-router-dom'
 import AuthService from '../../services/authService'
+import HrmsTextInput from '../../utilities/customFormControls/HrmsTextInput'
 
 export default function EmployerRegistrationForm() {
     const initialValues = {
@@ -51,23 +51,33 @@ export default function EmployerRegistrationForm() {
                     <Header as='h2' color='blue' textAlign='center'>Register Employer</Header>
                     <Formik initialValues={initialValues} validationSchema={validationSchema}
                         onSubmit={(values, {setSubmitting, resetForm}) => {handleSubmit(values, setSubmitting, resetForm)}}>
-                        <Form size='large'>
+                        <Form className="ui form">
                             <Segment>
-                                <Input fluid icon='building' iconPosition='left' placeholder='Company Name'
-                                    name='companyName' errorPrompt />
-                                <Input fluid icon='globe' iconPosition='left' placeholder='Web Page'
-                                    name='webPage' errorPrompt />
-                                <Input fluid icon='mail' iconPosition='left' placeholder='E-mail address'
-                                    name='email' errorPrompt />
-                                <Input fluid icon='phone' iconPosition='left' placeholder='Phone'
-                                    name='phone' errorPrompt />
-                                <Input fluid icon='lock' iconPosition='left' placeholder='Password' type='password'
-                                    name='password' errorPrompt />
-                                <Input fluid icon='lock' iconPosition='left' placeholder='Password(repeat)' type='password'
-                                    name='passwordForCheck' errorPrompt />
-                                <SubmitButton color='blue' fluid size='large'>
-                                    Register
-                                </SubmitButton>
+                                <HrmsTextInput 
+                                    name="companyName" icon="building" iconPosition="left" 
+                                    placeholder="Company Name" fluid
+                                />
+                                <HrmsTextInput 
+                                    name="webPage" icon="globe" iconPosition="left" 
+                                    placeholder="Web Page" fluid
+                                />
+                                <HrmsTextInput 
+                                    name="email" icon="mail" iconPosition="left" 
+                                    placeholder="E-mail address" fluid
+                                />
+                                <HrmsTextInput 
+                                    name="phone" icon="phone" iconPosition="left" 
+                                    placeholder="Phone" fluid
+                                />
+                                <HrmsTextInput 
+                                    name="password" icon="lock" iconPosition="left" 
+                                    placeholder="Password" fluid type="password"
+                                />
+                                <HrmsTextInput 
+                                    name="passwordForCheck" icon="lock" iconPosition="left" 
+                                    placeholder="Password(repeat)" fluid type="password"
+                                />
+                                <Button color="blue" fluid size="large">Register</Button>
                             </Segment>
                         </Form>
                     </Formik>

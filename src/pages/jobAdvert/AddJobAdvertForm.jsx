@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import { Formik } from 'formik'
-import { SubmitButton, ResetButton, Form, Input, Select, TextArea } from 'formik-semantic-ui-react'
-import { Grid, Header, Segment, FormGroup, FormField } from 'semantic-ui-react'
+import { Formik, Form } from 'formik'
+import { Grid, Header, Segment, FormGroup, Button } from 'semantic-ui-react'
 import * as Yup from 'yup'
+import HrmsSelect from '../../utilities/customFormControls/HrmsSelect'
+import HrmsTextInput from '../../utilities/customFormControls/HrmsTextInput'
+import HrmsTextArea from '../../utilities/customFormControls/HrmsTextArea'
 import { useHistory } from 'react-router-dom'
 import CityService from '../../services/cityService'
 import JobPositionService from '../../services/jobPositionService'
 import JobTypeService from '../../services/jobTypeService'
 import WorkLocationService from '../../services/workLocationService'
 import JobAdvertService from '../../services/jobAdvertService'
+import { useSelector } from 'react-redux'
 
 export default function AddJobAdvertForm() {
 
+    const {user} = useSelector(state => state.userInfo)
     const history = useHistory()
+
     
     const [cityOptions, setCityOptions] = useState([])
     const [jobPositionOptions, setJobPositionOptions] = useState([])
@@ -51,7 +56,7 @@ export default function AddJobAdvertForm() {
     }, [])
 
     const initialValues = {
-        employer: {id:3},
+        employer: {id:user.id},
         city: {id:""},
         jobPosition: {id:""},
         jobType: {id:""},
@@ -98,92 +103,63 @@ export default function AddJobAdvertForm() {
                     <Formik initialValues={initialValues} validationSchema={validationSchema}
                         onSubmit={(values, { setSubmitting, resetForm }) => { handleSubmit(values, setSubmitting, resetForm) }}
                     >
-                        <Form size='large'>
+                        <Form className="ui form">
                             <Header as='h3' attached="top" block >ADD JOB ADVERT</Header>
                             <Segment attached>
                                 <FormGroup widths="equal">
-                                    <Select
-                                        id="select-city"
-                                        errorPrompt
-                                        name="city.id"
-                                        selectOnBlur={false}
-                                        clearable
-                                        placeholder="Select City"
-                                        options={cityOptions}
-                                        label='City'
+                                    <HrmsSelect 
+                                        name="city.id" id="select-city" label='City' 
+                                        options={cityOptions} placeholder="Select City" 
+                                        selectOnBlur={false} clearable
                                     />
-                                    <Select
-                                        id="select-job-position"
-                                        errorPrompt
-                                        name="jobPosition.id"
-                                        selectOnBlur={false}
-                                        clearable
-                                        placeholder="Select Job Position"
-                                        options={jobPositionOptions}
-                                        label='Job Position'
+                                    <HrmsSelect 
+                                        name="jobPosition.id" id="select-job-position" label='Job Position' 
+                                        options={jobPositionOptions} placeholder="Select Job Position" 
+                                        selectOnBlur={false} clearable
                                     />
                                 </FormGroup>
                                 <FormGroup widths="equal">
-                                    <Select
-                                        id="select-job-type"
-                                        errorPrompt
-                                        name="jobType.id"
-                                        selectOnBlur={false}
-                                        clearable
-                                        placeholder="Select Job Type"
-                                        options={jobTypeOptions}
-                                        label='Job Type'
-
+                                    <HrmsSelect 
+                                        name="jobType.id" id="select-job-type" label='Job Type' 
+                                        options={jobTypeOptions} placeholder="Select Job Type" 
+                                        selectOnBlur={false} clearable
                                     />
-                                    <Select
-                                        id="select-work-location"
-                                        errorPrompt
-                                        name="workLocation.id"
-                                        selectOnBlur={false}
-                                        clearable
-                                        placeholder="Select Work Location"
-                                        options={workLocationOptions}
-                                        label='Work Location'
-
+                                    <HrmsSelect 
+                                        name="workLocation.id" id="select-work-location" label='Work Location' 
+                                        options={workLocationOptions} placeholder="Select Work Location" 
+                                        selectOnBlur={false} clearable
                                     />
                                 </FormGroup>
                                 <FormGroup widths="equal">
-                                    <FormField
-                                        control={Input} type="number" id="minSalary" placeholder="Minimum Salary"
-                                        label="Minimum Salary" name='minSalary' 
+                                    <HrmsTextInput 
+                                        name="minSalary" id="minSalary" type="number"
+                                        label="Minimum Salary" placeholder="Minimum Salary"
                                     />
-                                    <FormField
-                                        control={Input} type="number" id="maxSalary" placeholder="Maxium Salary"
-                                        label="Maximum Salary" name='maxSalary' errorPrompt
+                                    <HrmsTextInput 
+                                        name="maxSalary" id="maxSalary" type="number"
+                                        label="Maximum Salary" placeholder="Maximum Salary"
                                     />
                                 </FormGroup>
                                 <FormGroup widths="equal">
-                                    <FormField
-                                        control={Input} type="number" id="openPositionCount" placeholder="Open position count"
-                                        label="Open Position Count" name='openPositionCount' errorPrompt
+                                    <HrmsTextInput 
+                                        name="openPositionCount" id="openPositionCount" type="number"
+                                        label="Open position count" placeholder="Open position count"
                                     />
-                                    <FormField 
-                                        control={Input}
-                                        type="date"        
-                                        name="deadline"
-                                        label="Deadline"
+                                    <HrmsTextInput 
+                                        name="deadline" id="deadline" type="date"
+                                        label="Deadline" placeholder="Deadline"
                                         min={new Date().toISOString().split("T")[0]}
-                                        errorPrompt
                                     />
                                 </FormGroup>
                                 <FormGroup widths="equal">
-                                    <FormField
-                                        control={TextArea} id="jobDefinition" placeholder="Job Definition"
-                                        label="Job Definition" name='jobDefinition' errorPrompt
+                                    <HrmsTextArea 
+                                        name='jobDefinition' id="jobDefinition" 
+                                        placeholder="Job Definition" label="Job Definition" 
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                    <ResetButton size='large' fluid width={4}>
-                                        Reset
-                                    </ResetButton>
-                                    <SubmitButton color="green" size='large' fluid width={4}>
-                                        Add Job Advert
-                                    </SubmitButton>
+                                    <Button fluid width={4} size="large" type="reset">Reset</Button>
+                                    <Button fluid width={4} size="large" color="green" type="submit">Add Job Advert</Button>
                                 </FormGroup>
                             </Segment>
                         </Form>

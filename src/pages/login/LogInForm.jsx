@@ -1,11 +1,11 @@
 import React from 'react'
-import { Formik } from 'formik'
-import { SubmitButton, Form, Input } from 'formik-semantic-ui-react'
-import { Grid, Header, Segment, Message } from 'semantic-ui-react'
+import { Formik, Form } from 'formik'
+import { Grid, Header, Segment, Message, Button } from 'semantic-ui-react'
 import * as Yup from 'yup'
 import { useDispatch } from 'react-redux'
 import { logIn } from '../../store/actions/userActions'
 import { Link, useHistory } from 'react-router-dom'
+import HrmsTextInput from '../../utilities/customFormControls/HrmsTextInput'
 
 export default function LogInForm() {
 
@@ -19,7 +19,7 @@ export default function LogInForm() {
 
     const validationSchema = Yup.object({
         email: Yup.string().required('Required').email('Invalid E-mail'),
-        password: Yup.string().required('Required')
+        password: Yup.string().min(6, 'Must be at least 6 characters.').required('Required')
     })
 
     const handleLogin = (values) => {
@@ -27,10 +27,10 @@ export default function LogInForm() {
             dispatch(logIn({id:1, role:"staff"}))
             history.push("/user/staff")
         } else if (values.email === 'employer@abc.com' && values.password === '123456') {
-            dispatch(logIn({id:2, role:"employer"}))
+            dispatch(logIn({id:4, role:"employer"}))
             history.push("/user/employer")
         } else if (values.email === 'candidate@abc.com' && values.password === '123456') {
-            dispatch(logIn({id:3, role:"candidate"}))
+            dispatch(logIn({id:14, role:"candidate"}))
             history.push("/user/candidate")
         } else {
             history.push("/login")
@@ -44,16 +44,17 @@ export default function LogInForm() {
                     <Header as='h2' color='blue' textAlign='center'>Log In to your account</Header>
                     <Formik initialValues={initialValues} validationSchema={validationSchema}
                         onSubmit={(values) => handleLogin(values)}>
-                        {/* onSubmit={(values) => alert(JSON.stringify(values, null, 2))}> */}
-                        <Form size='large'>
+                        <Form className="ui form">
                             <Segment>
-                                <Input fluid icon='user' iconPosition='left' placeholder='E-mail address'
-                                    name="email" errorPrompt />
-                                <Input fluid icon='lock' iconPosition='left' placeholder='Password' type='password'
-                                    name="password" errorPrompt />
-                                <SubmitButton color='blue' fluid size='large'>
-                                    Login
-                                </SubmitButton>
+                                <HrmsTextInput 
+                                    name="email" icon="user" iconPosition="left" 
+                                    placeholder="E-mail address" fluid
+                                />
+                                <HrmsTextInput 
+                                    name="password" icon="lock" iconPosition="left" 
+                                    placeholder="Password" type="password" fluid
+                                />
+                                <Button color="blue" fluid size="large" type="submit">LogIn</Button>
                             </Segment>
                         </Form>
                     </Formik>

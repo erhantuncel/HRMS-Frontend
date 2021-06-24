@@ -1,10 +1,15 @@
 import React from 'react'
-import { Formik } from 'formik'
-import { SubmitButton, Form, Input } from 'formik-semantic-ui-react'
-import { Grid, Header, Segment } from 'semantic-ui-react'
+import { Formik, Form } from 'formik'
+import { Grid, Header, Segment, Button } from 'semantic-ui-react'
+import HrmsTextInput from '../../utilities/customFormControls/HrmsTextInput'
 import * as Yup from 'yup'
+import { useHistory } from 'react-router-dom'
+import AuthService from '../../services/authService'
 
 export default function CandidateRegisterationForm() {
+
+    const history = useHistory()
+
     const initialValues = {
         firstName: "",
         lastName: "",
@@ -12,7 +17,7 @@ export default function CandidateRegisterationForm() {
         yearOfBirth: "",
         email: "",
         password: "",
-        password2: ""
+        passwordForCheck: ""
     }
 
     const validationSchema = Yup.object({
@@ -22,8 +27,24 @@ export default function CandidateRegisterationForm() {
         yearOfBirth: Yup.string().required('Required').length(4, 'Must be four digits.'),
         email: Yup.string().required('Required').email('Invalid E-mail'),
         password: Yup.string().required('Required').min(6, 'Must be at least 6 characters.'),
-        password2: Yup.string().required('Required').oneOf([Yup.ref('password'), null], 'Password must match')
+        passwordForCheck: Yup.string().required('Required').oneOf([Yup.ref('password'), null], 'Password must match')
     })
+
+    function handleSubmit(values, setSubmitting, resetForm) {
+        let authService = new AuthService()
+        authService.registerCandidate(values).then(
+            result => {
+                if(result.data.success) {
+                    console.log(JSON.stringify(values, null, 2))
+                    setSubmitting(false)
+                    resetForm()
+                    history.push("/verification/info")
+                } else {
+                    alert(result.data.message)
+                }
+            }
+        )
+    }
 
     return (
         <Grid style={{ height: '90vh' }} textAlign="center">
@@ -31,26 +52,38 @@ export default function CandidateRegisterationForm() {
                 <Grid.Column style={{maxWidth: '410px'}}>
                     <Header as='h2' color='blue' textAlign='center'>Register Candidate</Header>
                     <Formik initialValues={initialValues} validationSchema={validationSchema}
-                            onSubmit={(values) => alert(JSON.stringify(values, null, 2))}>
-                        <Form size="large">
+                            onSubmit={(values, {setSubmitting, resetForm}) => {handleSubmit(values, setSubmitting, resetForm)}}>
+                        <Form className="ui form">
                             <Segment>
-                                <Input fluid icon='user' iconPosition='left' placeholder='First Name' 
-                                        name='firstName' errorPrompt />
-                                <Input fluid icon='user' iconPosition='left' placeholder='Last Name' 
-                                        name='lastName' errorPrompt />
-                                <Input fluid icon='id card' iconPosition='left' placeholder='Identity Number' 
-                                        name='identityNumber' errorPrompt />
-                                <Input fluid icon='calendar alternate' iconPosition='left' placeholder='Year of Birth' 
-                                        name='yearOfBirth' errorPrompt />
-                                <Input fluid icon='mail' iconPosition='left' placeholder='E-mail address' 
-                                        name='email' errorPrompt />
-                                <Input fluid icon='lock' iconPosition='left' placeholder='Password' type='password' 
-                                        name='password' errorPrompt />
-                                <Input fluid icon='lock' iconPosition='left' placeholder='Password(repeat)' type='password' 
-                                        name='password2' errorPrompt />
-                                <SubmitButton color='blue' fluid size='large'>
-                                    Register
-                                </SubmitButton>
+                                <HrmsTextInput 
+                                    name="firstName" icon="user" iconPosition="left" 
+                                    placeholder="First Name" fluid
+                                />
+                                <HrmsTextInput 
+                                    name="lastName" icon="user" iconPosition="left" 
+                                    placeholder="Last Name" fluid
+                                />
+                                <HrmsTextInput 
+                                    name="identityNumber" icon="id card" iconPosition="left" 
+                                    placeholder="Identity Number" fluid
+                                />
+                                <HrmsTextInput 
+                                    name="yearOfBirth" icon="calendar alternate" iconPosition="left" 
+                                    placeholder="Year of Birth" fluid
+                                />
+                                <HrmsTextInput 
+                                    name="email" icon="mail" iconPosition="left" 
+                                    placeholder="E-mail address" fluid
+                                />
+                                <HrmsTextInput 
+                                    name="password" icon="lock" iconPosition="left" 
+                                    placeholder="Password" fluid type="password"
+                                />
+                                <HrmsTextInput 
+                                    name="passwordForCheck" icon="lock" iconPosition="left" 
+                                    placeholder="Password(repeat)" fluid type="password"
+                                />
+                                <Button color="blue" fluid size="large" type="submit">Register</Button>
                             </Segment>
                         </Form>
                     </Formik>
