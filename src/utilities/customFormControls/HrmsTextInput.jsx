@@ -4,9 +4,10 @@ import { FormField, Input, Label } from 'semantic-ui-react'
 
 export default function HrmsTextInput({label, ...props}) {
 
-    const [field, meta] = useField(props)
+    const [field, meta, helpers] = useField(props)
     // console.log(field)
     // console.log(meta)
+    console.log(field.name + " touched : " + meta.touched )
     return (
         <FormField error={meta.touched && !!meta.error}>
             {label ? (<label>{label}</label>) : null}

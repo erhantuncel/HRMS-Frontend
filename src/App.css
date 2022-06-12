@@ -21,3 +21,13 @@ footer {
 .react-datepicker-wrapper {
   width: 100%;
 }
+
+.stepContent {
+  text-align: center;
+}
+
+.stickyTableHeader {
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
+}

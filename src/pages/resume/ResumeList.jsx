@@ -1,10 +1,12 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import { Grid, Table, Button, Menu, Icon } from 'semantic-ui-react'
 export default function ResumeList() {
     return (
         <Grid>
             <Grid.Row>
                 <Grid.Column>
+                    <Button primary as={NavLink} to="/user/candidate/add-resume">Create Resume</Button>
                     <Table celled>
                         <Table.Header>
                             <Table.Row>
@@ -16,15 +18,15 @@ export default function ResumeList() {
                         </Table.Header>
 
                         <Table.Body>
-                                    <Table.Row>
-                                        <Table.Cell>Cell</Table.Cell>
-                                        <Table.Cell>Cell</Table.Cell>
-                                        <Table.Cell>Cell</Table.Cell>
-                                        <Table.Cell textAlign="center">
-                                            <Button primary size="mini">Edit</Button>
-                                            <Button primary size="mini">Delete</Button>
-                                        </Table.Cell>
-                                    </Table.Row>
+                            <Table.Row>
+                                <Table.Cell>Cell</Table.Cell>
+                                <Table.Cell>Cell</Table.Cell>
+                                <Table.Cell>Cell</Table.Cell>
+                                <Table.Cell textAlign="center">
+                                    <Button primary size="mini">Edit</Button>
+                                    <Button primary size="mini">Delete</Button>
+                                </Table.Cell>
+                            </Table.Row>
                         </Table.Body>
 
                         <Table.Footer>

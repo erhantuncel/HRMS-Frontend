@@ -8,6 +8,7 @@ import JobPositionList from '../pages/jobPosition/JobPositionList'
 import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom'
 import ResumeList from '../pages/resume/ResumeList'
 import AddJobAdvertForm from '../pages/jobAdvert/AddJobAdvertForm'
+import AddResume from '../pages/resume/AddResume'
 
 export default function UserDashboard() {
     let match = useRouteMatch()
@@ -32,6 +33,7 @@ export default function UserDashboard() {
                             <Route exact path={`${match.path}/candidate/`} component={JobAdvertList} />
                             <Route exact path={`${match.path}/candidate/job-adverts`} component={JobAdvertList} />
                             <Route exact path={`${match.path}/candidate/resumes`} component={ResumeList} />
+                            <Route exact path={`${match.path}/candidate/add-resume`} component={AddResume} />
                             <Route path="*">
                                 <Redirect to="/no-page" />
                             </Route>
