@@ -5,7 +5,10 @@ import { Grid, Segment, Header, Menu, Image, Table, Icon, FormGroup, Button, Lab
 
 export default function Confirmation(props) {
 
-    const {jobPositionOptions} = props
+    const {
+        selectedPhotoUrl,
+        jobPositionOptions
+    } = props
     const {values} = useFormikContext();
 
     return (
@@ -51,7 +54,7 @@ export default function Confirmation(props) {
                     <Grid.Row columns={2}>
                         <Grid.Column width={4} padded>
                             <Segment basic style={{ margin: "0", padding: "0.4rem 0 0.6rem 0", height: "225px" }}>
-                                <Image src="/noProfilePhoto.jpg" width="70%" />
+                                <Image src={selectedPhotoUrl} width="70%" />
                             </Segment>
                         </Grid.Column>
                         <Grid.Column width={12}>

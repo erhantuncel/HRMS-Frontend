@@ -58,6 +58,7 @@ export default function AddResume() {
     const currentValidationSchema = validationSchema[activeStep-1]
     const { formId, formField } = addResumeFormModel
     const [selectedPhoto, setSelectedPhoto] = useState("")
+    const [selectedPhotoUrl, setSelectedPhotoUrl] = useState("")
 
     function handleSetStep(steps) {
         setSteps(steps)
@@ -124,7 +125,9 @@ export default function AddResume() {
                 return <PersonalInformationForm
                     formField={formField}
                     selectedPhoto={selectedPhoto}
-                    setSelectedPhoto={setSelectedPhoto} />;
+                    setSelectedPhoto={setSelectedPhoto}
+                    selectedPhotoUrl={selectedPhotoUrl}
+                    setSelectedPhotoUrl={setSelectedPhotoUrl} />;
             case 3:
                 return <EducationForm formField={formField} />;
             case 4:
@@ -134,7 +137,7 @@ export default function AddResume() {
             case 6:
                 return <SocialMediaAndSkillForm formField={formField} skillOptions={skillOptions} setSkillOptions={setSkillOptions}  />
             case 7:
-                return <Confirmation jobPositionOptions={jobPositionOptions} />;
+                return <Confirmation selectedPhotoUrl={selectedPhotoUrl} jobPositionOptions={jobPositionOptions} />;
             default:
                 break;
         }

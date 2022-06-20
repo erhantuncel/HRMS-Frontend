@@ -12,9 +12,11 @@ export default function PersonalInformationForm(props) {
             email
         },
         selectedPhoto,
-        setSelectedPhoto
+        setSelectedPhoto,
+        selectedPhotoUrl,
+        setSelectedPhotoUrl
     } = props
-    const [selectedPhotoUrl, setSelectedPhotoUrl] = useState("")
+    
     useEffect(() => {
         selectedPhoto ? setSelectedPhotoUrl(URL.createObjectURL(selectedPhoto)) :
             setSelectedPhotoUrl("/noProfilePhoto.jpg")
