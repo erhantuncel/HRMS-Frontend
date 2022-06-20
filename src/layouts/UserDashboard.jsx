@@ -15,7 +15,7 @@ export default function UserDashboard() {
 
     return (
         <Container className="main">
-            <Grid padded style={{height: '90vh'}} divided>
+            <Grid padded style={{height: '85vh'}} divided>
                 <Grid.Row>
                     <Grid.Column width={3}>
                         <SideMenu />
