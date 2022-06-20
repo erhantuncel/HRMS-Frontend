@@ -3,7 +3,6 @@ import { FieldArray } from 'formik'
 import { Grid, Segment, Header, Menu, Icon, FormGroup, Button } from 'semantic-ui-react'
 import HrmsSelect from '../../../../utilities/customFormControls/HrmsSelect'
 import HrmsTextInput from '../../../../utilities/customFormControls/HrmsTextInput'
-import JobPositionService from '../../../../services/jobPositionService'
 
 export default function JobExperienceForm(props) {
 
@@ -13,19 +12,9 @@ export default function JobExperienceForm(props) {
             workplaceName,
             startDate,
             endDate
-        }
+        },
+        jobPositionOptions
     } = props
-
-    const [jobPositionOptions, setJobPositionOptions] = useState([])
-
-    useEffect(() => {
-        let jobPositionService = new JobPositionService()
-        jobPositionService.getall().then(
-            result => setJobPositionOptions(
-                result.data.data.map(jp => ({ key: jp.id, value: jp.id, text: jp.name }))
-            )
-        )
-    }, [])
 
     return (
         <FieldArray name="jobExperiences" >

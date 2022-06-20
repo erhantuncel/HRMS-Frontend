@@ -5,6 +5,7 @@ import { Grid, Segment, Header, Menu, Image, Table, Icon, FormGroup, Button, Lab
 
 export default function Confirmation(props) {
 
+    const {jobPositionOptions} = props
     const {values} = useFormikContext();
 
     return (
@@ -160,7 +161,11 @@ export default function Confirmation(props) {
                                         return (
                                             <Table.Row>
                                                 <Table.Cell>{jobExperience.workplaceName}</Table.Cell>
-                                                <Table.Cell>{jobExperience.jobPosition.id}</Table.Cell>
+                                                <Table.Cell>
+                                                    {jobPositionOptions.find(jp => {
+                                                        return jp.key === jobExperience.jobPosition.id
+                                                    }).text}
+                                                </Table.Cell>
                                                 <Table.Cell>{jobExperience.startDate}</Table.Cell>
                                                 <Table.Cell>{jobExperience.endDate}</Table.Cell>
                                             </Table.Row>

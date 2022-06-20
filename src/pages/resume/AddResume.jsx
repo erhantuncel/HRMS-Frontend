@@ -16,6 +16,7 @@ import PhotoService from '../../services/photoService'
 import SkillService from '../../services/skillService'
 import ResumeService from '../../services/resumeService'
 import validationSchema from './AddResumeComponents/FormModel/validationSchema'
+import JobPositionService from '../../services/jobPositionService'
 
 export default function AddResume() {
 
@@ -39,6 +40,18 @@ export default function AddResume() {
             )
         )
     }, [])
+
+    const [jobPositionOptions, setJobPositionOptions] = useState([])
+
+    useEffect(() => {
+        let jobPositionService = new JobPositionService()
+        jobPositionService.getall().then(
+            result => setJobPositionOptions(
+                result.data.data.map(jp => ({ key: jp.id, value: jp.id, text: jp.name }))
+            )
+        )
+    }, [])
+
     const [steps, setSteps] = useState(initialSteps)
     const [activeStep, setActiveStep] = useState(1)
     const isLastStep = activeStep === steps.length
@@ -115,13 +128,13 @@ export default function AddResume() {
             case 3:
                 return <EducationForm formField={formField} />;
             case 4:
-                return <JobExperienceForm formField={formField} />;
+                return <JobExperienceForm formField={formField} jobPositionOptions={jobPositionOptions} />;
             case 5:
                 return <LanguageForm formField={formField} />;
             case 6:
                 return <SocialMediaAndSkillForm formField={formField} skillOptions={skillOptions} setSkillOptions={setSkillOptions}  />
             case 7:
-                return <Confirmation formField={formField} />;
+                return <Confirmation jobPositionOptions={jobPositionOptions} />;
             default:
                 break;
         }
