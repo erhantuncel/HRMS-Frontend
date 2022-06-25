@@ -27,10 +27,10 @@ export default function LogInForm() {
             dispatch(logIn({id:1, role:"staff"}))
             history.push("/user/staff")
         } else if (values.email === 'employer@abc.com' && values.password === '123456') {
-            dispatch(logIn({id:2, role:"employer"}))
+            dispatch(logIn({id:3, role:"employer"}))
             history.push("/user/employer")
         } else if (values.email === 'candidate@abc.com' && values.password === '123456') {
-            dispatch(logIn({id:3, role:"candidate"}))
+            dispatch(logIn({id:2, role:"candidate"}))
             history.push("/user/candidate")
         } else {
             history.push("/login")

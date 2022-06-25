@@ -1,6 +1,6 @@
 import { useFormikContext } from 'formik';
 import React from 'react'
-import { Grid, Segment, Header, Menu, Image, Table, Icon, FormGroup, Button, Label } from 'semantic-ui-react'
+import { Grid, Segment, Header, Menu, Image, Table } from 'semantic-ui-react'
 
 
 export default function Confirmation(props) {
@@ -13,7 +13,6 @@ export default function Confirmation(props) {
 
     return (
         <div>
-            {console.log(values)}
             <Segment color="blue" style={{ marginTop: 0, padding: "0 2px 8px 2px" }}>
                 <Header as="h6" textAlign="right" color="blue" style={{ margin: 0, padding: 0 }}>
                     <Menu size="small" text style={{ margin: 0, padding: 0 }}>

@@ -17,6 +17,7 @@ import SkillService from '../../services/skillService'
 import ResumeService from '../../services/resumeService'
 import validationSchema from './AddResumeComponents/FormModel/validationSchema'
 import JobPositionService from '../../services/jobPositionService'
+import { useHistory } from 'react-router'
 
 export default function AddResume() {
 
@@ -31,6 +32,7 @@ export default function AddResume() {
     ]
 
     const [skillOptions, setSkillOptions] = useState([])
+    const history = useHistory()
 
     useEffect(() => {
         let skillService = new SkillService()
@@ -64,44 +66,38 @@ export default function AddResume() {
         setSteps(steps)
     }
 
+    const sendPhoto = async () => {
+        if (selectedPhoto !== "") { 
+            const photoData = new FormData()
+            photoData.append("photoFile", selectedPhoto)
+            let photoService = new PhotoService()
+            const response = await photoService.add(photoData)
+            return {id: response.data.data.id};
+        } else {
+            return null;
+        }
+    }
+
     const handleSubmit = (values, actions) => {
-        if (isLastStep) {
-            // if (selectedPhoto !== "") {
-            //     const photoData = new FormData()
-            //     photoData.append("photoFile", selectedPhoto)
-            //     let photoService = new PhotoService()
-            //     photoService.add(photoData).then(result => {
-            //             return {id: result.data.data.id}
-            //         }
-            //     ).then(photoObject => {
-            //         let { skillStr, firstName, lastName, identityNumber, email, ...values2 } = values
-            //             let data = {
-            //                 "skills": values.skillStr.join(","),
-            //                 "candidate": { id: 3},
-            //                 "photo": photoObject,
-            //                 ...values2
-            //             }
-            //             console.log(data)
-            //             let resumeService = new ResumeService()
-            //             return resumeService.add(data)
-            //     }).then( result => {
-            //         console.log(result)
-            //     }).catch(error => {
-            //         console.error(error)
-            //     })
-            // } else {
-            //     console.log("selectedPhoto is null")
-            // }
-            let { skillStr, firstName, lastName, identityNumber, email, ...values2 } = values
-            let data = {
-                "skills": values.skillStr.join(","),
-                "candidate": { id: 1},
-                "photo": { id: 1 },
-                ...values2
-            }
-            console.log(data)
-            alert(JSON.stringify(data, null, 2))
-            actions.setSubmitting(false)
+        if (isLastStep) {   
+            sendPhoto().then(photoObject => {
+                let { skillStr, firstName, lastName, identityNumber, email, ...values2 } = values
+                let data = {
+                    "skills": values.skillStr.join(","),
+                    "candidate": { id: 2},
+                    ...values2
+                }
+                if(photoObject !== null) {
+                    data.photo = photoObject;
+                }
+                let resumeService = new ResumeService()
+                return resumeService.add(data)
+            }).then(result => {
+                console.log(result)
+                history.push("/user/candidate/resumes");
+            }).catch(error => {
+                console.error(error)
+            })
         } else {
             steps.find((step) => step.id === activeStep + 1).disabled = false;
             handleSetStep(steps)
