@@ -7,8 +7,6 @@ export default function HrmsDropDown({label, ...props}) {
     const [field, meta, helpers] = useField(props)
 
     function handleChange(event, data) {
-        // console.log(event)
-        // console.log(data)
         helpers.setValue(data.value)
     }
 
