@@ -17,6 +17,7 @@ import SkillService from '../../services/skillService'
 import ResumeService from '../../services/resumeService'
 import validationSchema from './AddResumeComponents/FormModel/validationSchema'
 import JobPositionService from '../../services/jobPositionService'
+import alertify from 'alertifyjs'
 import { useHistory } from 'react-router'
 
 export default function AddResume() {
@@ -95,6 +96,7 @@ export default function AddResume() {
             }).then(result => {
                 console.log(result)
                 history.push("/user/candidate/resumes");
+                alertify.success(result.data.data.name + " is added successfully.")
             }).catch(error => {
                 console.error(error)
             })
